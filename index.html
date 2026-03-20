@@ -670,16 +670,17 @@ Rules:
       });
     }
     
-    renderTasks();
-    renderMats();
-    
-    const notes = parsed.notes?"\n\nNote: "+parsed.notes:"";
-    $("ai-build-status").innerHTML="Estimate built — review and adjust as needed"+notes;
-    btn.textContent="AI BUILD ESTIMATE FROM DESCRIPTION";
-    btn.disabled=false;
-    
-    // Scroll down to show the tasks
-    $("task-list").scrollIntoView({behavior:"smooth",block:"start"});
+    // Small delay to ensure arrays are populated before rendering
+    setTimeout(()=>{
+      renderTasks();
+      renderMats();
+      recalc();
+      const notes = parsed.notes?" Note: "+parsed.notes:"";
+      $("ai-build-status").innerHTML="Estimate built — review and adjust as needed."+notes;
+      btn.textContent="AI BUILD ESTIMATE FROM DESCRIPTION";
+      btn.disabled=false;
+      $("task-list").scrollIntoView({behavior:"smooth",block:"start"});
+    }, 100);
     
   }catch(e){
     $("ai-build-status").innerHTML="Build failed — try again or fill in manually";
