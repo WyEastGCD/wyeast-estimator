@@ -452,7 +452,7 @@ async function aiPrice(i){
   $("ai-status").innerHTML=`<span class="spinner"></span>Looking up Portland price for "${item}"...`;
   try{
     const res=await fetch("https://api.anthropic.com/v1/messages",{
-      method:"POST",headers:{"Content-Type":"application/json"},
+      method:"POST",headers:{"Content-Type":"application/json","anthropic-dangerous-direct-browser-access":"true"},
       body:JSON.stringify({
         model:"claude-sonnet-4-20250514",max_tokens:150,
         system:"You are a Portland OR contractor pricing assistant. Respond ONLY with JSON: {\"price\":12.50,\"unit\":\"each\",\"source\":\"Home Depot Portland\",\"note\":\"standard grade\"}. No markdown, no explanation.",
@@ -565,7 +565,7 @@ async function sendEst(){
   }
   $("send-btn").disabled=true;$("send-btn").textContent="Sending...";
   try{
-    const res=await fetch(webhook,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});
+    const res=await fetch(webhook,{method:"POST",headers:{"Content-Type":"application/json","anthropic-dangerous-direct-browser-access":"true"},body:JSON.stringify(payload)});
     if(res.ok)finishSend(n,name,approval,false);
     else throw new Error("HTTP "+res.status);
   }catch(e){
@@ -622,7 +622,7 @@ async function aiBuildEstimate(){
   $("ai-build-status").innerHTML='<span class="spinner"></span>AI is analyzing the job and building your estimate...';
   try{
     const res=await fetch("https://api.anthropic.com/v1/messages",{
-      method:"POST",headers:{"Content-Type":"application/json"},
+      method:"POST",headers:{"Content-Type":"application/json","anthropic-dangerous-direct-browser-access":"true"},
       body:JSON.stringify({
         model:"claude-sonnet-4-20250514",max_tokens:1500,
         system:`You are an expert Portland, Oregon handyman estimator with 20 years experience. 
